@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite for Tests">
+	<test name="Tests on Browser">
+		<classes>
+			<class
+				name="com.qa.tests.LambdaTestECommerceTests">
+				<methods>
+					<include name="testLoadHomePage" />
+					<include name="testAccountLogin" />
+					<include name="testLoginProcess" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>
