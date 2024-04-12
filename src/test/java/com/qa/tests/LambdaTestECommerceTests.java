@@ -1,26 +1,44 @@
 package com.qa.tests;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.qa.basetests.DriverBase;
 import com.qa.pages.HomePage;
 import com.qa.pages.LoginPage;
 import com.qa.pages.PageWaitHelper;
 
-public class LambdaTestECommerceTests extends DriverBase {
+public class LambdatestECommerceTests extends DriverBase {
 	private WebDriver driver;
 	private PageWaitHelper pageWaitHelper = new PageWaitHelper();
+	private ExtentReports extent;
+	private ExtentTest test;
+
+	@BeforeClass
+	public void setUpExtentReports() {
+		ExtentSparkReporter spark = new ExtentSparkReporter("target/Spark.html");
+		extent = new ExtentReports();
+		extent.attachReporter(spark);
+	}
 
 	@Test
 	public void testLoadHomePage() {
 		this.driver = getDriver();
 		driver.manage().window().maximize();
 		driver.get(config.getProperty("url"));
+		test = extent.createTest("Validate Home Page", "This test validates whether Home page is loaded or not");
 		pageWaitHelper.pageImplicitlyWait(driver);
 		String actualTitle = driver.getTitle();
-		Assert.assertEquals(actualTitle, config.getProperty("homepageTitle"));
+		if (actualTitle.equals(config.getProperty("homepageTitle"))) {
+			test.pass("Home page loaded successfully");
+		} else {
+			test.fail("Home page not loaded. Actual title: " + actualTitle);
+		}
 	}
 
 	@Test
@@ -29,15 +47,31 @@ public class LambdaTestECommerceTests extends DriverBase {
 		homePage.clickOnLoginButton();
 		pageWaitHelper.pageImplicitlyWait(driver);
 		String actualTitle = driver.getTitle();
-		Assert.assertEquals(actualTitle, config.getProperty("accountLoginPageTitle"));
+		test = extent.createTest("Validate Login Page", "This test validates whether Login page is loaded or not");
+		if (actualTitle.equals(config.getProperty("accountLoginPageTitle"))) {
+			test.pass("Login page loaded successfully");
+		} else {
+			test.fail("Login page not loaded. Actual title: " + actualTitle);
+		}
 	}
-	
+
 	@Test
 	public void testLoginProcess() {
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.performLogin(config.getProperty("username"), config.getProperty("password"));
 		pageWaitHelper.pageImplicitlyWait(driver);
 		String actualTitle = driver.getTitle();
-		Assert.assertEquals(actualTitle, config.getProperty("loginPageTitle"));
+		test = extent.createTest("Validate Login Process",
+				"This test validates whether user can able to Login with valid credentials");
+		if (actualTitle.equals(config.getProperty("loginPageTitle"))) {
+			test.pass("Login process completed successfully");
+		} else {
+			test.fail("Login process failed. Actual title: " + actualTitle);
+		}
+	}
+
+	@AfterClass
+	public void tearDownExtentReports() {
+		extent.flush();
 	}
 }

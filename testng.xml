@@ -4,7 +4,7 @@
 	<test name="Tests on Browser">
 		<classes>
 			<class
-				name="com.qa.tests.LambdaTestECommerceTests">
+				name="com.qa.tests.LambdatestECommerceTests">
 				<methods>
 					<include name="testLoadHomePage" />
 					<include name="testAccountLogin" />
