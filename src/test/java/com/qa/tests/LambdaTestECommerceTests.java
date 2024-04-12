@@ -34,11 +34,7 @@ public class LambdatestECommerceTests extends DriverBase {
 		test = extent.createTest("Validate Home Page", "This test validates whether Home page is loaded or not");
 		pageWaitHelper.pageImplicitlyWait(driver);
 		String actualTitle = driver.getTitle();
-		if (actualTitle.equals(config.getProperty("homepageTitle"))) {
-			test.pass("Home page loaded successfully");
-		} else {
-			test.fail("Home page not loaded. Actual title: " + actualTitle);
-		}
+		AssertionHelper.assertAndReport(test, actualTitle, config.getProperty("homepageTitle"), "testLoadHomePage");
 	}
 
 	@Test
@@ -48,11 +44,7 @@ public class LambdatestECommerceTests extends DriverBase {
 		pageWaitHelper.pageImplicitlyWait(driver);
 		String actualTitle = driver.getTitle();
 		test = extent.createTest("Validate Login Page", "This test validates whether Login page is loaded or not");
-		if (actualTitle.equals(config.getProperty("accountLoginPageTitle"))) {
-			test.pass("Login page loaded successfully");
-		} else {
-			test.fail("Login page not loaded. Actual title: " + actualTitle);
-		}
+		AssertionHelper.assertAndReport(test, actualTitle, config.getProperty("accountLoginPageTitle"), "testAccountLogin");
 	}
 
 	@Test
@@ -63,11 +55,7 @@ public class LambdatestECommerceTests extends DriverBase {
 		String actualTitle = driver.getTitle();
 		test = extent.createTest("Validate Login Process",
 				"This test validates whether user can able to Login with valid credentials");
-		if (actualTitle.equals(config.getProperty("loginPageTitle"))) {
-			test.pass("Login process completed successfully");
-		} else {
-			test.fail("Login process failed. Actual title: " + actualTitle);
-		}
+		 AssertionHelper.assertAndReport(test, actualTitle, config.getProperty("loginPageTitle"), "testLoginProcess");
 	}
 
 	@AfterClass
