@@ -9,6 +9,7 @@
 					<include name="testLoadHomePage" />
 					<include name="testAccountLogin" />
 					<include name="testLoginProcess" />
+					<include name="testLogoutProcess" />
 				</methods>
 			</class>
 		</classes>

@@ -13,6 +13,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.qa.basetests.DriverBase;
 import com.qa.pages.HomePage;
 import com.qa.pages.LoginPage;
+import com.qa.pages.LogoutPage;
 import com.qa.pages.PageWaitHelper;
 
 public class LambdatestECommerceTests extends DriverBase {
@@ -60,6 +61,18 @@ public class LambdatestECommerceTests extends DriverBase {
 		test = extent.createTest("Validate Login Process",
 				"This test validates whether user can able to Login with valid credentials");
 		AssertionHelper.assertAndReport(test, actualTitle, config.getProperty("loginPageTitle"), "testLoginProcess",
+				driver);
+	}
+	
+	@Test
+	public void testLogoutProcess() throws IOException {
+		LogoutPage logoutPage = new LogoutPage(driver);
+		logoutPage.performLogout();
+		pageWaitHelper.pageImplicitlyWait(driver);
+		String actualTitle = driver.getTitle();
+		test = extent.createTest("Validate Logout Process",
+				"This test validates whether the user can successfully log out");
+		AssertionHelper.assertAndReport(test, actualTitle, config.getProperty("accountLogoutTitle"), "testLogoutProcess",
 				driver);
 	}
 
